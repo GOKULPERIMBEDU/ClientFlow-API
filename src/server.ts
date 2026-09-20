@@ -29,6 +29,10 @@ app.get("/health", (_req, res) => {
   });
 });
 
+app.get("/", (_req, res) => {
+  res.status(200).send("ClientFlow API is awake and running!");
+});
+
 app.use("/api", apiRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
