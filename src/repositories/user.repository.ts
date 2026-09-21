@@ -10,6 +10,7 @@ function toUser(doc: UserHydratedDocument): IUser {
     name: doc.name,
     email: doc.email,
     role: doc.role,
+    assignedProjects: doc.assignedProjects ?? [],
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
   };
@@ -40,6 +41,7 @@ export class UserRepository implements IRepository<IUser, CreateUserDto, UpdateU
         name: payload.name,
         email: payload.email,
         role: payload.role ?? "member",
+        assignedProjects: payload.assignedProjects ?? [],
       });
       return toUser(doc);
     } catch (error) {

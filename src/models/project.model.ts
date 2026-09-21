@@ -13,6 +13,7 @@ export interface ProjectDocument {
   currency: string;
   startDate: string;
   endDate: string;
+  assignedTeam: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -31,6 +32,10 @@ const projectSchema = new Schema<ProjectDocument>(
     currency: { type: String, default: "USD", trim: true },
     startDate: { type: String, required: true },
     endDate: { type: String, required: true },
+    assignedTeam: {
+      type: [{ type: String, ref: "User" }],
+      default: [],
+    },
   },
   {
     timestamps: true,

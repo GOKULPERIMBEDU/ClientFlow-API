@@ -13,6 +13,7 @@ function toProject(doc: ProjectHydratedDocument): IProject {
     currency: doc.currency,
     startDate: doc.startDate,
     endDate: doc.endDate,
+    assignedTeam: doc.assignedTeam ?? [],
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
   };
@@ -34,6 +35,11 @@ export class ProjectRepository implements IRepository<IProject, CreateProjectDto
     return docs.map(toProject);
   }
 
+  async findIdsForUser(userId: string): Promise<string[]> {
+    const docs = await ProjectModel.find({ assignedTeam: userId }).select("_id").exec();
+    return docs.map((doc) => doc._id);
+  }
+
   async create(payload: CreateProjectDto): Promise<IProject> {
     const doc = await ProjectModel.create({
       clientId: payload.clientId,
@@ -44,6 +50,7 @@ export class ProjectRepository implements IRepository<IProject, CreateProjectDto
       currency: payload.currency ?? "USD",
       startDate: payload.startDate,
       endDate: payload.endDate,
+      assignedTeam: payload.assignedTeam ?? [],
     });
     return toProject(doc);
   }

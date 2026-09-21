@@ -1,6 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import path from "node:path";
 import { corsOptions } from "./config/cors.js";
 import { connectDatabase, isDatabaseConnected } from "./config/db.js";
 import { seedIfEmpty } from "./config/seed.js";
@@ -15,7 +16,8 @@ const port = Number(process.env.PORT ?? 4000);
 
 app.disable("x-powered-by");
 app.use(cors(corsOptions));
-app.use(express.json({ limit: "1mb" }));
+app.use(express.json({ limit: "8mb" }));
+app.use("/uploads", express.static(path.resolve(process.cwd(), "uploads")));
 
 app.get("/health", (_req, res) => {
   res.status(200).json({
@@ -39,7 +41,7 @@ app.use(errorHandler);
 
 async function start(): Promise<void> {
   await connectDatabase();
-  await seedIfEmpty();
+  await seedIfEmpty(); // workspace defaults, including team and task history
 
   app.listen(port, () => {
     console.log(`ClientFlow API listening on http://localhost:${port}`);

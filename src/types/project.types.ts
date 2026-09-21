@@ -10,6 +10,7 @@ export interface IProject {
   currency: string;
   startDate: string;
   endDate: string;
+  assignedTeam: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -23,6 +24,7 @@ export interface CreateProjectDto {
   currency?: string;
   startDate: string;
   endDate: string;
+  assignedTeam?: string[];
 }
 
 export interface UpdateProjectDto {
@@ -34,4 +36,5 @@ export interface UpdateProjectDto {
   currency?: string;
   startDate?: string;
   endDate?: string;
+  assignedTeam?: string[];
 }
